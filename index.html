@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北新的主页</title>
+
+    <!-- 引入 Pico.css (CN 镜像或 CDN) 用于基础样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+    <!-- 引入 Material Icons 图标库 (极客族镜像) -->
+    <link href="https://fonts.geekzu.org/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- 引入 Alpine.js 用于交互逻辑 (defer 属性确保在 HTML 解析后执行) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <style>
+        /* 自定义样式以补充 Pico.css */
+
+        /* 确保主要内容垂直水平居中 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+            /* 防止菜单动画导致水平滚动条 */
+        }
+
+        /* 添加渐变背景色 - 深暗灰色为主，淡彩蓝绿渐变 */
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            /* 深暗灰蓝绿渐变背景 */
+            color-scheme: dark;
+            /* 启用暗色模式 */
+        }
+
+        body>main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            /* 标题左对齐 */
+            min-height: 100vh;
+            text-align: left;
+            /* 文本左对齐 */
+        }
+
+        /* 标题和副标题使用白色 */
+        body>main h1 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            /* 增加标题和副标题的间距 */
+        }
+
+        body>main p {
+            color: #ffffff;
+            opacity: 0.8;
+            /* 副标题透明度 */
+        }
+
+        /* 浮动操作按钮 (FAB) 容器 */
+        .fab-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column-reverse;
+            /* 让菜单项从下往上堆叠 */
+            align-items: flex-end;
+            /* 菜单项右对齐 */
+            gap: 1rem;
+        }
+
+        /* 主 FAB 按钮样式 */
+        .fab-button {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: none;
+            background-color: #3b82f6;
+            /* 亮蓝色 */
+            color: #ffffff;
+            /* 白色图标 */
+        }
+
+        /* 菜单打开时旋转主按钮图标 */
+        .fab-button.open {
+            transform: rotate(45deg);
+        }
+
+        /* 菜单项样式 - 蓝底白字 */
+        .fab-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            /* 图标和文字的间距 */
+            background-color: #3b82f6;
+            /* 亮蓝色背景 */
+            color: #ffffff;
+            /* 白色文字 */
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            /* 初始位置稍微偏下 */
+            pointer-events: none;
+            /* 隐藏时不可点击 */
+            white-space: nowrap;
+        }
+
+        .fab-menu-item:hover {
+            background-color: #60a5fa;
+            /* 悬停时更亮的蓝色 */
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* 菜单显示时的状态 */
+        .fab-menu-item.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* 图标样式调整 */
+        .material-icons {
+            font-size: 1.5rem;
+        }
+
+        /* 弹窗自定义样式 - 统一样式 */
+        dialog article {
+            text-align: center;
+            position: relative;
+        }
+
+        /* 弹窗头部样式 */
+        dialog article header {
+            position: relative;
+            padding: 1rem;
+        }
+
+        /* 右上角叉号关闭按钮 */
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e5e5e5;
+            border: none;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            cursor: pointer;
+            padding: 0;
+            color: #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .modal-close-btn .material-icons {
+            font-size: 1.25rem;
+        }
+
+        /* 单个大按钮样式 */
+        .modal-single-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            background-color: #3b82f6;
+            color: #ffffff;
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .modal-single-btn:hover {
+            background-color: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .modal-single-btn .material-icons {
+            font-size: 1.25rem;
+        }
+
+        /* 底部版权信息 */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .site-footer p {
+            color: rgba(255, 255, 255, 0.6) !important;
+            margin: 0;
+        }
+
+        /* 弹窗打开时隐藏 FAB 菜单 */
+        body:has(dialog[open]) .fab-container {
+            display: none;
+        }
+
+        /* 弹窗底部按钮容器 */
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal-buttons a {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* 邮箱文本框样式 */
+        .email-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* 复制成功气泡提示 */
+        .copy-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            z-index: 9999;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<!-- 
+  x-data: 声明 Alpine 组件数据
+  menuOpen: 控制右下角菜单的开关状态
+  modalOpen: 控制疑难解答弹窗的显示状态
+-->
+
+<body
+    x-data="{ menuOpen: false, modalOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
+
+    <!-- 主体内容 -->
+    <main class="container">
+        <hgroup>
+            <h1>👋你好，我是北新</h1>
+            <p>A.K.A bexino & Yosemite</p>
+        </hgroup>
+    </main>
+
+    <!-- 浮动菜单区域 -->
+    <div class="fab-container" @click.outside="menuOpen = false">
+        <!-- 主按钮 (汉堡菜单/关闭) -->
+        <button class="fab-button" :class="{ 'open': menuOpen }" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
+            <span class="material-icons">add</span>
+        </button>
+
+        <!-- 菜单项列表 -->
+        <!-- 使用 Alpine x-show 和 x-transition 实现动画 -->
+
+        <!-- 收藏站点 (打开弹窗) -->
+        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
+            @click.prevent="modalOpen = true; menuOpen = false" style="transition-delay: 50ms;">
+            <span>收藏站点</span>
+            <span class="material-icons">bookmark</span>
+        </a>
+
+        <!-- 加速站 -->
+        <a href="https://fast.bexino.dpdns.org/" target="_blank" class="fab-menu-item" :class="{ 'show': menuOpen }"
+            style="transition-delay: 100ms;">
+            <span>加速站</span>
+            <span class="material-icons">rocket_launch</span>
+        </a>
+
+        <!-- 联系我 (打开弹窗) -->
+        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
+            @click.prevent="contactModalOpen = true; menuOpen = false" style="transition-delay: 150ms;">
+            <span>联系我</span>
+            <span class="material-icons">email</span>
+        </a>
+
+        <!-- 博客 (打开弹窗) -->
+        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
+            @click.prevent="blogModalOpen = true; menuOpen = false" style="transition-delay: 200ms;">
+            <span>博客</span>
+            <span class="material-icons">book</span>
+        </a>
+
+        <!-- 下载资源 (打开弹窗) -->
+        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
+            @click.prevent="downloadModalOpen = true; menuOpen = false" style="transition-delay: 250ms;">
+            <span>下载资源</span>
+            <span class="material-icons">file_download</span>
+        </a>
+    </div>
+
+    <!-- 收藏站点弹窗 -->
+    <dialog :open="modalOpen">
+        <article>
+            <button class="modal-close-btn" @click="modalOpen = false" aria-label="关闭">
+                <span class="material-icons">close</span>
+            </button>
+            <header>
+                <p><strong>欢迎访问本站</strong></p>
+            </header>
+            <p>
+                提示：您可以按下 <strong>Ctrl + D</strong> 键将此页面添加到收藏夹。
+            </p>
+        </article>
+    </dialog>
+
+    <!-- 下载资源弹窗 -->
+    <dialog :open="downloadModalOpen">
+        <article>
+            <button class="modal-close-btn" @click="downloadModalOpen = false" aria-label="关闭">
+                <span class="material-icons">close</span>
+            </button>
+            <header>
+                <p><strong>下载资源</strong></p>
+            </header>
+            <p>
+                密码：2778<br />
+                若资源失效，请通过主页的邮箱联系我<br />
+                <a
+                    href="https://fast.bexino.dpdns.org/https://raw.githubusercontent.com/beixinti/Picture/main/Picture/shareCode.png">下载链接二维码</a>
+            </p>
+            <footer>
+                <a href="https://www.123865.com/s/bB49-KtCd3?pwd=2778#" target="_blank"
+                    class="modal-single-btn">前往下载<span class="material-icons">north_east</span></a>
+            </footer>
+        </article>
+    </dialog>
+
+    <!-- 博客弹窗 -->
+    <dialog :open="blogModalOpen">
+        <article>
+            <button class="modal-close-btn" @click="blogModalOpen = false" aria-label="关闭">
+                <span class="material-icons">close</span>
+            </button>
+            <header>
+                <p><strong>博客</strong></p>
+            </header>
+            <p>
+                <a href="https://fast.bexino.dpdns.org/https://bexino.notion.site/">连接速度慢、访问不稳定？点我cf反代访问</a>
+            </p>
+            <footer>
+                <a href="https://bexino.notion.site/" target="_blank" class="modal-single-btn">前往博客<span
+                        class="material-icons">north_east</span></a>
+            </footer>
+        </article>
+    </dialog>
+
+    <!-- 联系我弹窗 -->
+    <dialog :open="contactModalOpen">
+        <article>
+            <button class="modal-close-btn" @click="contactModalOpen = false" aria-label="关闭">
+                <span class="material-icons">close</span>
+            </button>
+            <header>
+                <p><strong>联系我</strong></p>
+            </header>
+            <p>通过邮箱与我取得联系</p>
+            <div class="email-input-group">
+                <input type="text" class="email-input" value="beixinti@gmail.com" readonly id="emailInput">
+            </div>
+            <footer>
+                <div class="modal-buttons">
+                    <a href="mailto:beixinti@gmail.com" class="modal-single-btn">发送邮件<span
+                            class="material-icons">north_east</span></a>
+                    <button class="modal-single-btn" style="border: none; cursor: pointer;"
+                        @click="navigator.clipboard.writeText('beixinti@gmail.com'); copied = true; setTimeout(() => copied = false, 2000)">复制邮箱<span
+                            class="material-icons">content_copy</span></button>
+                </div>
+            </footer>
+        </article>
+    </dialog>
+
+    <!-- 复制成功提示 -->
+    <div class="copy-toast" x-show="copied" x-transition>复制成功！</div>
+
+    <!-- 底部版权信息 -->
+    <footer class="site-footer">
+        <p>Copyright © 2026 bexino<br>All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
