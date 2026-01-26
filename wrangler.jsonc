@@ -1,0 +1,7 @@
+{
+    "name": "your-project-name",
+    "compatibility_date": "2026-01-26",
+    "assets": {
+        "directory": "./" // 如果你的 HTML 就在根目录，填 "./"；如果在 public 文件夹，填 "./public"
+    }
+}
