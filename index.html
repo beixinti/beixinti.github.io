@@ -279,7 +279,7 @@
 -->
 
 <body
-    x-data="{ menuOpen: false, modalOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
+    x-data="{ menuOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
 
     <!-- 主体内容 -->
     <main class="container">
@@ -299,118 +299,77 @@
         <!-- 菜单项列表 -->
         <!-- 使用 Alpine x-show 和 x-transition 实现动画 -->
 
-        <!-- 收藏站点 (打开弹窗) -->
-        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="modalOpen = true; menuOpen = false" style="transition-delay: 50ms;">
-            <span>收藏站点</span>
-            <span class="material-icons">bookmark</span>
-        </a>
-
         <!-- 加速站 -->
         <a href="https://fast.bexino.dpdns.org/" target="_blank" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            style="transition-delay: 100ms;">
-            <span>加速站</span>
-            <span class="material-icons">rocket_launch</span>
+            style="transition-delay: 50ms;">
+            <span>加速站 🚀</span>
         </a>
 
-        <!-- 联系我 (打开弹窗) -->
+        <!-- 电邮 (打开弹窗) -->
         <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="contactModalOpen = true; menuOpen = false" style="transition-delay: 150ms;">
-            <span>联系我</span>
-            <span class="material-icons">email</span>
+            @click.prevent="contactModalOpen = true; menuOpen = false" style="transition-delay: 100ms;">
+            <span>电邮 📧</span>
         </a>
 
-        <!-- 博客 (打开弹窗) -->
+        <!-- 公众号 (打开弹窗) -->
         <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="blogModalOpen = true; menuOpen = false" style="transition-delay: 200ms;">
-            <span>博客</span>
-            <span class="material-icons">book</span>
+            @click.prevent="blogModalOpen = true; menuOpen = false" style="transition-delay: 150ms;">
+            <span>公众号 📗</span>
         </a>
 
         <!-- 下载资源 (打开弹窗) -->
         <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="downloadModalOpen = true; menuOpen = false" style="transition-delay: 250ms;">
-            <span>下载资源</span>
-            <span class="material-icons">file_download</span>
+            @click.prevent="downloadModalOpen = true; menuOpen = false" style="transition-delay: 200ms;">
+            <span>下载资源 ⬇️</span>
         </a>
     </div>
 
-    <!-- 收藏站点弹窗 -->
-    <dialog :open="modalOpen">
-        <article>
-            <button class="modal-close-btn" @click="modalOpen = false" aria-label="关闭">
-                <span class="material-icons">close</span>
-            </button>
-            <header>
-                <p><strong>欢迎访问本站</strong></p>
-            </header>
-            <p>
-                提示：您可以按下 <strong>Ctrl + D</strong> 键将此页面添加到收藏夹。
-            </p>
-        </article>
-    </dialog>
+
 
     <!-- 下载资源弹窗 -->
     <dialog :open="downloadModalOpen">
         <article>
-            <button class="modal-close-btn" @click="downloadModalOpen = false" aria-label="关闭">
-                <span class="material-icons">close</span>
-            </button>
+            <button class="modal-close-btn" @click="downloadModalOpen = false" aria-label="关闭">✕</button>
             <header>
                 <p><strong>下载资源</strong></p>
             </header>
             <p>
-                密码：2778<br />
-                若资源失效，请通过主页的邮箱联系我<br />
-                <a
-                    href="https://fast.bexino.dpdns.org/https://raw.githubusercontent.com/beixinti/Picture/main/Picture/shareCode.png">下载链接二维码</a>
+                密码：2778。
             </p>
             <footer>
                 <a href="https://www.123865.com/s/bB49-KtCd3?pwd=2778#" target="_blank"
-                    class="modal-single-btn">前往下载<span class="material-icons">north_east</span></a>
+                    class="modal-single-btn">前往下载</a>
             </footer>
         </article>
     </dialog>
 
-    <!-- 博客弹窗 -->
+    <!-- 公众号弹窗 -->
     <dialog :open="blogModalOpen">
         <article>
-            <button class="modal-close-btn" @click="blogModalOpen = false" aria-label="关闭">
-                <span class="material-icons">close</span>
-            </button>
+            <button class="modal-close-btn" @click="blogModalOpen = false" aria-label="关闭">✕</button>
             <header>
-                <p><strong>博客</strong></p>
+                <p><strong>请微信搜一搜：北新桥。</strong></p>
             </header>
-            <p>
-                <a href="https://fast.bexino.dpdns.org/https://bexino.notion.site/">连接速度慢、访问不稳定？点我cf反代访问</a>
-            </p>
-            <footer>
-                <a href="https://bexino.notion.site/" target="_blank" class="modal-single-btn">前往博客<span
-                        class="material-icons">north_east</span></a>
-            </footer>
+            <img src="https://fast.bexino.dpdns.org/https://github.com/beixinti/Picture/blob/main/Picture/%E6%89%AB%E7%A0%81_%E6%90%9C%E7%B4%A2%E8%81%94%E5%90%88%E4%BC%A0%E6%92%AD%E6%A0%B7%E5%BC%8F-%E6%A0%87%E5%87%86%E8%89%B2%E7%89%88.png?raw=true"
+                alt="博客二维码" style="max-width: 100%; border-radius: 0.5rem;">
         </article>
     </dialog>
 
-    <!-- 联系我弹窗 -->
+    <!-- 电邮弹窗 -->
     <dialog :open="contactModalOpen">
         <article>
-            <button class="modal-close-btn" @click="contactModalOpen = false" aria-label="关闭">
-                <span class="material-icons">close</span>
-            </button>
+            <button class="modal-close-btn" @click="contactModalOpen = false" aria-label="关闭">✕</button>
             <header>
-                <p><strong>联系我</strong></p>
+                <p><strong>电邮</strong></p>
             </header>
-            <p>通过邮箱与我取得联系</p>
             <div class="email-input-group">
-                <input type="text" class="email-input" value="beixinti@gmail.com" readonly id="emailInput">
+                <input type="text" class="email-input" value="bexino@outlook.de" readonly id="emailInput">
             </div>
             <footer>
                 <div class="modal-buttons">
-                    <a href="mailto:beixinti@gmail.com" class="modal-single-btn">发送邮件<span
-                            class="material-icons">north_east</span></a>
+                    <a href="mailto:bexino@outlook.de" class="modal-single-btn">发送邮件</a>
                     <button class="modal-single-btn" style="border: none; cursor: pointer;"
-                        @click="navigator.clipboard.writeText('beixinti@gmail.com'); copied = true; setTimeout(() => copied = false, 2000)">复制邮箱<span
-                            class="material-icons">content_copy</span></button>
+                        @click="navigator.clipboard.writeText('bexino@outlook.de'); copied = true; setTimeout(() => copied = false, 2000)">复制邮箱</button>
                 </div>
             </footer>
         </article>
