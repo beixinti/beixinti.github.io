@@ -386,7 +386,7 @@
     x-data="{ menuOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
 
     <!-- 背景图片 (非阻塞加载) -->
-    <img src="https://fast.bexino.dpdns.org/https%3A%2F%2Fraw.githubusercontent.com%2Fbeixinti%2FPicture%2Frefs%2Fheads%2Fmain%2FPicture%2Fpavel-boltov-YBfY46-gGXE-unsplash.jpg"
+    <img src="https://fast.bexino.dpdns.org/https%3A%2F%2Fraw.githubusercontent.com%2Fbeixinti%2FPicture%2Frefs%2Fheads%2Fmain%2FPicture%2Fkelly-moon-FH1t3LsPg5c-unsplash.jpg"
         alt="" class="bg-image" loading="lazy" fetchpriority="low" />
 
     <!-- 顶部胶囊导航栏 -->
@@ -395,6 +395,7 @@
             <!-- 桌面平铺链接 -->
             <button class="nav-link desktop-link" @click="blogModalOpen = true">订阅号</button>
             <button class="nav-link desktop-link" @click="downloadModalOpen = true">下载资源</button>
+            <a href="https://github.com/beixinti" target="_blank" class="nav-link desktop-link">GitHub</a>
             <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link desktop-link">加速站</a>
             <button class="nav-link desktop-link" @click="contactModalOpen = true">电邮</button>
 
@@ -408,6 +409,7 @@
         <div class="mobile-dropdown" :class="{ 'open': menuOpen }">
             <button class="nav-link" @click="blogModalOpen = true; menuOpen = false">订阅号</button>
             <button class="nav-link" @click="downloadModalOpen = true; menuOpen = false">下载资源</button>
+            <a href="https://github.com/beixinti" target="_blank" class="nav-link">GitHub</a>
             <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link">加速站</a>
             <button class="nav-link" @click="contactModalOpen = true; menuOpen = false">电邮</button>
         </div>
