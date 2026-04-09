@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,6 @@
 
     <!-- 引入 Pico.css (CN 镜像或 CDN) 用于基础样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-
-    <!-- 引入 Material Icons 图标库 (极客族镜像) -->
-    <link href="https://fonts.geekzu.org/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- 引入 Alpine.js 用于交互逻辑 (defer 属性确保在 HTML 解析后执行) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
@@ -24,124 +21,217 @@
             height: 100%;
             margin: 0;
             overflow-x: hidden;
-            /* 防止菜单动画导致水平滚动条 */
         }
 
-        /* 添加渐变背景色 - 深暗灰色为主，淡彩蓝绿渐变 */
+        /* 使用在线图像作为背景 */
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            /* 深暗灰蓝绿渐变背景 */
             color-scheme: dark;
-            /* 启用暗色模式 */
         }
 
-        body>main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            /* 标题左对齐 */
-            min-height: 100vh;
-            text-align: left;
-            /* 文本左对齐 */
-        }
-
-        /* 标题和副标题使用白色 */
-        body>main h1 {
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            /* 增加标题和副标题的间距 */
-        }
-
-        body>main p {
-            color: #ffffff;
-            opacity: 0.8;
-            /* 副标题透明度 */
-        }
-
-        /* 浮动操作按钮 (FAB) 容器 */
-        .fab-container {
+        .bg-image {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column-reverse;
-            /* 让菜单项从下往上堆叠 */
-            align-items: flex-end;
-            /* 菜单项右对齐 */
-            gap: 1rem;
-        }
-
-        /* 主 FAB 按钮样式 */
-        .fab-button {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-            border: none;
-            background-color: #3b82f6;
-            /* 亮蓝色 */
-            color: #ffffff;
-            /* 白色图标 */
-        }
-
-        /* 菜单打开时旋转主按钮图标 */
-        .fab-button.open {
-            transform: rotate(45deg);
-        }
-
-        /* 菜单项样式 - 蓝底白字 */
-        .fab-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            /* 图标和文字的间距 */
-            background-color: #3b82f6;
-            /* 亮蓝色背景 */
-            color: #ffffff;
-            /* 白色文字 */
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            opacity: 0;
-            transform: translateY(10px);
-            /* 初始位置稍微偏下 */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
             pointer-events: none;
-            /* 隐藏时不可点击 */
-            white-space: nowrap;
         }
 
-        .fab-menu-item:hover {
-            background-color: #60a5fa;
-            /* 悬停时更亮的蓝色 */
+        /* ========== 巨大标题 ========== */
+        .hero-title {
+            position: fixed;
+            bottom: 3rem;
+            left: 2.5rem;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-title .subtitle {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.75rem);
+            font-weight: 300;
+            color: rgba(220, 213, 190, 0.8);
+            /* #dcd5be 透明度 0.8 */
+            margin: 0 0 0.5rem 0.2rem;
+            line-height: 1.4;
+        }
+
+        .hero-title h1 {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', sans-serif;
+            font-size: clamp(6rem, 18vw, 22rem);
+            font-weight: 900;
+            color: #dcd5be;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        /* ========== 底部渐变遮罩 ========== */
+        .bottom-gradient {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 55%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ========== 顶部胶囊导航栏 ========== */
+        .capsule-nav {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        /* 胶囊容器 - 毛玻璃暗色背景 */
+        .capsule-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.4rem 0.5rem;
+            border-radius: 9999px;
+            background: rgba(15, 15, 25, 0.55);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 胶囊内链接 */
+        .capsule-bar .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            padding: 0.45rem 1.1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.25s ease, color 0.25s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+
+        .capsule-bar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
             text-decoration: none;
         }
 
-        /* 菜单显示时的状态 */
-        .fab-menu-item.show {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
+        .capsule-bar .nav-link:active {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        /* 图标样式调整 */
-        .material-icons {
-            font-size: 1.5rem;
+        /* 桌面宽屏：显示平铺菜单，隐藏汉堡按钮和下拉菜单 */
+        .hamburger-btn {
+            display: none;
+        }
+
+        .mobile-dropdown {
+            display: none;
+        }
+
+        /* ========== 响应式：竖屏 / 窄屏 折叠为汉堡菜单 ========== */
+        @media (max-width: 640px),
+        (orientation: portrait) {
+
+            /* 胶囊导航移到右侧 */
+            .capsule-nav {
+                left: auto;
+                right: 1.5rem;
+                transform: none;
+            }
+
+            /* 隐藏平铺链接 */
+            .capsule-bar .nav-link.desktop-link {
+                display: none;
+            }
+
+            /* 显示汉堡按钮 */
+            .hamburger-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                color: rgba(255, 255, 255, 0.9);
+                cursor: pointer;
+                padding: 0.4rem;
+                border-radius: 50%;
+                transition: background 0.2s ease;
+                width: 2.2rem;
+                height: 2.2rem;
+            }
+
+            .hamburger-btn:hover {
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            /* 下拉菜单 - 毛玻璃胶囊（右对齐） */
+            .mobile-dropdown {
+                position: absolute;
+                top: calc(100% + 0.6rem);
+                right: 0;
+                left: auto;
+                transform: none;
+                min-width: 160px;
+                padding: 0.5rem;
+                border-radius: 1.25rem;
+                background: rgba(15, 15, 25, 0.6);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+                flex-direction: column;
+                gap: 0.15rem;
+            }
+
+            .mobile-dropdown.open {
+                display: flex;
+            }
+
+            .mobile-dropdown .nav-link {
+                color: rgba(255, 255, 255, 0.85);
+                text-decoration: none;
+                padding: 0.55rem 1.2rem;
+                border-radius: 0.75rem;
+                font-size: 0.875rem;
+                font-weight: 500;
+                transition: background 0.2s ease;
+                text-align: center;
+                cursor: pointer;
+                border: none;
+                background: none;
+                font-family: inherit;
+                display: block;
+                width: 100%;
+            }
+
+            .mobile-dropdown .nav-link:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                text-decoration: none;
+            }
         }
 
         /* 弹窗自定义样式 - 统一样式 */
         dialog article {
             text-align: center;
             position: relative;
+            background-color: #1e1e24;
+            /* 暗色背景 */
+            color: #ffffff;
+            /* 浅色文字 */
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* 弹窗头部样式 */
@@ -155,14 +245,14 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: #e5e5e5;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 50%;
             width: 2rem;
             height: 2rem;
             cursor: pointer;
             padding: 0;
-            color: #333333;
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -171,11 +261,7 @@
         }
 
         .modal-close-btn:hover {
-            background: #d0d0d0;
-        }
-
-        .modal-close-btn .material-icons {
-            font-size: 1.25rem;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         /* 单个大按钮样式 */
@@ -185,44 +271,67 @@
             justify-content: center;
             gap: 0.5rem;
             width: 100%;
-            background-color: #3b82f6;
+            background-color: rgba(255, 255, 255, 0.05);
+            /* 半透明极低透明度遮罩 */
             color: #ffffff;
             text-align: center;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-decoration: none;
             font-weight: 500;
             transition: background 0.2s;
         }
 
         .modal-single-btn:hover {
-            background-color: #2563eb;
+            background-color: rgba(255, 255, 255, 0.1);
             color: #ffffff;
             text-decoration: none;
         }
 
-        .modal-single-btn .material-icons {
-            font-size: 1.25rem;
+        .modal-single-btn:active {
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
-        /* 底部版权信息 */
+        /* 底部版权信息 - 右下角 */
         .site-footer {
             position: fixed;
             bottom: 0;
-            left: 0;
             right: 0;
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.875rem;
+            text-align: right;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            z-index: 3;
         }
 
         .site-footer p {
-            color: rgba(255, 255, 255, 0.6) !important;
+            color: rgba(255, 255, 255, 0.5) !important;
             margin: 0;
         }
 
-        /* 弹窗打开时隐藏 FAB 菜单 */
-        body:has(dialog[open]) .fab-container {
+        /* ========== 竖屏响应式 ========== */
+        @media (max-width: 640px),
+        (orientation: portrait) {
+            .hero-title {
+                left: 50%;
+                bottom: auto;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            .hero-title h1 {
+                font-size: clamp(3.5rem, 18vw, 8rem);
+            }
+
+            .hero-title .subtitle {
+                font-size: clamp(0.875rem, 3.5vw, 1.25rem);
+                margin-left: 0;
+            }
+        }
+
+        /* 弹窗打开时隐藏导航栏 */
+        body:has(dialog[open]) .capsule-nav {
             display: none;
         }
 
@@ -249,12 +358,12 @@
         .email-input {
             flex: 1;
             padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 0.5rem;
             font-size: 1rem;
             text-align: center;
-            background: #f5f5f5;
-            color: #333;
+            background: rgba(0, 0, 0, 0.2);
+            color: #ffffff;
         }
 
         /* 复制成功气泡提示 */
@@ -272,59 +381,46 @@
         }
     </style>
 </head>
-<!-- 
-  x-data: 声明 Alpine 组件数据
-  menuOpen: 控制右下角菜单的开关状态
-  modalOpen: 控制疑难解答弹窗的显示状态
--->
 
 <body
     x-data="{ menuOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
 
-    <!-- 主体内容 -->
-    <main class="container">
-        <hgroup>
-            <h1>👋你好，我是北新</h1>
-            <p>A.K.A bexino & Yosemite</p>
-        </hgroup>
-    </main>
+    <!-- 背景图片 (非阻塞加载) -->
+    <img src="https://fast.bexino.dpdns.org/https%3A%2F%2Fraw.githubusercontent.com%2Fbeixinti%2FPicture%2Frefs%2Fheads%2Fmain%2FPicture%2Fpavel-boltov-YBfY46-gGXE-unsplash.jpg"
+        alt="" class="bg-image" loading="lazy" fetchpriority="low" />
 
-    <!-- 浮动菜单区域 -->
-    <div class="fab-container" @click.outside="menuOpen = false">
-        <!-- 主按钮 (汉堡菜单/关闭) -->
-        <button class="fab-button" :class="{ 'open': menuOpen }" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
-            <span class="material-icons">add</span>
-        </button>
+    <!-- 顶部胶囊导航栏 -->
+    <nav class="capsule-nav" @click.outside="menuOpen = false">
+        <div class="capsule-bar">
+            <!-- 桌面平铺链接 -->
+            <button class="nav-link desktop-link" @click="blogModalOpen = true">订阅号</button>
+            <button class="nav-link desktop-link" @click="downloadModalOpen = true">下载资源</button>
+            <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link desktop-link">加速站</a>
+            <button class="nav-link desktop-link" @click="contactModalOpen = true">电邮</button>
 
-        <!-- 菜单项列表 -->
-        <!-- 使用 Alpine x-show 和 x-transition 实现动画 -->
+            <!-- 汉堡按钮（仅竖屏/窄屏显示） -->
+            <button class="hamburger-btn" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
+                <span style="font-size: 1.4rem; font-weight: bold;" x-text="menuOpen ? '✕' : '☰'"></span>
+            </button>
+        </div>
 
-        <!-- 加速站 -->
-        <a href="https://fast.bexino.dpdns.org/" target="_blank" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            style="transition-delay: 50ms;">
-            <span>加速站 🚀</span>
-        </a>
+        <!-- 移动端下拉菜单 -->
+        <div class="mobile-dropdown" :class="{ 'open': menuOpen }">
+            <button class="nav-link" @click="blogModalOpen = true; menuOpen = false">订阅号</button>
+            <button class="nav-link" @click="downloadModalOpen = true; menuOpen = false">下载资源</button>
+            <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link">加速站</a>
+            <button class="nav-link" @click="contactModalOpen = true; menuOpen = false">电邮</button>
+        </div>
+    </nav>
 
-        <!-- 电邮 (打开弹窗) -->
-        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="contactModalOpen = true; menuOpen = false" style="transition-delay: 100ms;">
-            <span>电邮 📧</span>
-        </a>
+    <!-- 底部渐变遮罩 -->
+    <div class="bottom-gradient"></div>
 
-        <!-- 公众号 (打开弹窗) -->
-        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="blogModalOpen = true; menuOpen = false" style="transition-delay: 150ms;">
-            <span>公众号 📗</span>
-        </a>
-
-        <!-- 下载资源 (打开弹窗) -->
-        <a href="#" class="fab-menu-item" :class="{ 'show': menuOpen }"
-            @click.prevent="downloadModalOpen = true; menuOpen = false" style="transition-delay: 200ms;">
-            <span>下载资源 ⬇️</span>
-        </a>
+    <!-- 巨大标题 -->
+    <div class="hero-title">
+        <p class="subtitle">你好，我是北新。</p>
+        <h1>bexino.</h1>
     </div>
-
-
 
     <!-- 下载资源弹窗 -->
     <dialog :open="downloadModalOpen">
@@ -348,7 +444,7 @@
         <article>
             <button class="modal-close-btn" @click="blogModalOpen = false" aria-label="关闭">✕</button>
             <header>
-                <p><strong>请微信搜一搜：北新桥。</strong></p>
+                <p><strong>请微信搜一搜：北新桥。关注订阅号。</strong></p>
             </header>
             <img src="https://fast.bexino.dpdns.org/https://github.com/beixinti/Picture/blob/main/Picture/%E6%89%AB%E7%A0%81_%E6%90%9C%E7%B4%A2%E8%81%94%E5%90%88%E4%BC%A0%E6%92%AD%E6%A0%B7%E5%BC%8F-%E6%A0%87%E5%87%86%E8%89%B2%E7%89%88.png?raw=true"
                 alt="博客二维码" style="max-width: 100%; border-radius: 0.5rem;">
