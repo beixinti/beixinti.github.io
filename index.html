@@ -13,21 +13,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 
     <style>
-        /* 自定义样式以补充 Pico.css */
-
         /* 确保主要内容垂直水平居中 */
-        body,
-        html {
+        body, html {
             height: 100%;
             margin: 0;
             overflow-x: hidden;
         }
 
-        /* 使用在线图像作为背景 */
-        body {
-            color-scheme: dark;
-        }
-
+        /* 背景图片样式 */
         .bg-image {
             position: fixed;
             top: 0;
@@ -39,7 +32,7 @@
             pointer-events: none;
         }
 
-        /* ========== 巨大标题 ========== */
+        /* 巨大标题样式 */
         .hero-title {
             position: fixed;
             bottom: 3rem;
@@ -53,7 +46,6 @@
             font-size: clamp(1rem, 2.5vw, 1.75rem);
             font-weight: 300;
             color: rgba(220, 213, 190, 0.8);
-            /* #dcd5be 透明度 0.8 */
             margin: 0 0 0.5rem 0.2rem;
             line-height: 1.4;
         }
@@ -69,7 +61,7 @@
             letter-spacing: -0.03em;
         }
 
-        /* ========== 底部渐变遮罩 ========== */
+        /* 底部渐变遮罩 */
         .bottom-gradient {
             position: fixed;
             bottom: 0;
@@ -81,7 +73,7 @@
             pointer-events: none;
         }
 
-        /* ========== 顶部胶囊导航栏 ========== */
+        /* 顶部胶囊导航栏 */
         .capsule-nav {
             position: fixed;
             top: 1.5rem;
@@ -139,10 +131,8 @@
             display: none;
         }
 
-        /* ========== 响应式：竖屏 / 窄屏 折叠为汉堡菜单 ========== */
-        @media (max-width: 640px),
-        (orientation: portrait) {
-
+        /* 响应式：竖屏 / 窄屏 折叠为汉堡菜单 */
+        @media (max-width: 640px), (orientation: portrait) {
             /* 胶囊导航移到右侧 */
             .capsule-nav {
                 left: auto;
@@ -221,95 +211,8 @@
             }
         }
 
-        /* 弹窗自定义样式 - 统一样式 */
-        dialog article {
-            text-align: center;
-            position: relative;
-            background-color: #1e1e24;
-            /* 暗色背景 */
-            color: #ffffff;
-            /* 浅色文字 */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* 弹窗头部样式 */
-        dialog article header {
-            position: relative;
-            padding: 1rem;
-        }
-
-        /* 右上角叉号关闭按钮 */
-        .modal-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 2rem;
-            height: 2rem;
-            cursor: pointer;
-            padding: 0;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: background 0.2s;
-        }
-
-        .modal-close-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* 单个大按钮样式 */
-        .modal-single-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.05);
-            /* 半透明极低透明度遮罩 */
-            color: #ffffff;
-            text-align: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .modal-single-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-        .modal-single-btn:active {
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        /* 底部版权信息 - 右下角 */
-        .site-footer {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            text-align: right;
-            padding: 1rem 1.5rem;
-            font-size: 0.75rem;
-            z-index: 3;
-        }
-
-        .site-footer p {
-            color: rgba(255, 255, 255, 0.5) !important;
-            margin: 0;
-        }
-
-        /* ========== 竖屏响应式 ========== */
-        @media (max-width: 640px),
-        (orientation: portrait) {
+        /* 竖屏响应式 */
+        @media (max-width: 640px), (orientation: portrait) {
             .hero-title {
                 left: 50%;
                 bottom: auto;
@@ -329,40 +232,20 @@
             }
         }
 
-        /* 弹窗打开时隐藏导航栏 */
-        body:has(dialog[open]) .capsule-nav {
-            display: none;
+        /* 底部版权信息 - 右下角 */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            text-align: right;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            z-index: 3;
         }
 
-        /* 弹窗底部按钮容器 */
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .modal-buttons a {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        /* 邮箱文本框样式 */
-        .email-input-group {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.2);
-            color: #ffffff;
+        .site-footer p {
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0;
         }
 
         /* 复制成功气泡提示 */
@@ -381,11 +264,10 @@
     </style>
 </head>
 
-<body
-    x-data="{ menuOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
+<body x-data="{ menuOpen: false, downloadModalOpen: false, blogModalOpen: false, contactModalOpen: false, copied: false }">
 
     <!-- 背景图片 (非阻塞加载) -->
-    <img src="https://fast.bexino.dpdns.org/https%3A%2F%2Fraw.githubusercontent.com%2Fbeixinti%2FPicture%2Frefs%2Fheads%2Fmain%2FPicture%2Fkelly-moon-FH1t3LsPg5c-unsplash.jpg"
+    <img src="https://fast.bexino.dpdns.org/https%3A%2F%2Fprivate-user-images.githubusercontent.com%2F95170151%2F579678661-a4cdeb4e-e782-44ba-9d48-af8949b98aa5.jpg%3Fjwt%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzY0MDMwODcsIm5iZiI6MTc3NjQwMjc4NywicGF0aCI6Ii85NTE3MDE1MS81Nzk2Nzg2NjEtYTRjZGViNGUtZTc4Mi00NGJhLTlkNDgtYWY4OTQ5Yjk4YWE1LmpwZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA0MTclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNDE3VDA1MTMwN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTRiNTI5NWEyMTg1NzZiNTkwMWE0ZDE4ZjMzZDZjODlhMWRlYWMwMzhiOGQ5ODg5MjU3ZjkyMmIwYzUxZDNjNWQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmpwZWcifQ.Wt0yY8PzmHqwZTPUwJQpJO_iLJgVBASgp3eYXmFyl5c"
         alt="" class="bg-image" loading="lazy" fetchpriority="low" />
 
     <!-- 顶部胶囊导航栏 -->
@@ -396,11 +278,11 @@
             <button class="nav-link desktop-link" @click="downloadModalOpen = true">下载资源</button>
             <a href="https://github.com/beixinti" target="_blank" class="nav-link desktop-link">GitHub</a>
             <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link desktop-link">加速站</a>
-            <button class="nav-link desktop-link" @click="contactModalOpen = true">电邮</button>
+            <button class="nav-link desktop-link" @click="contactModalOpen = true">邮箱</button>
 
             <!-- 汉堡按钮（仅竖屏/窄屏显示） -->
-            <button class="hamburger-btn" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
-                <span style="font-size: 1.4rem; font-weight: bold;" x-text="menuOpen ? '✕' : '☰'"></span>
+            <button class="hamburger-btn" @click="menuOpen = !menuOpen" aria-label="切换菜单">
+                <span x-text="menuOpen ? '✕' : '☰'"></span>
             </button>
         </div>
 
@@ -410,7 +292,7 @@
             <button class="nav-link" @click="downloadModalOpen = true; menuOpen = false">下载资源</button>
             <a href="https://github.com/beixinti" target="_blank" class="nav-link">GitHub</a>
             <a href="https://fast.bexino.dpdns.org/" target="_blank" class="nav-link">加速站</a>
-            <button class="nav-link" @click="contactModalOpen = true; menuOpen = false">电邮</button>
+            <button class="nav-link" @click="contactModalOpen = true; menuOpen = false">邮箱</button>
         </div>
     </nav>
 
@@ -426,48 +308,40 @@
     <!-- 下载资源弹窗 -->
     <dialog :open="downloadModalOpen">
         <article>
-            <button class="modal-close-btn" @click="downloadModalOpen = false" aria-label="关闭">✕</button>
-            <header>
-                <p><strong>下载资源</strong></p>
-            </header>
-            <p>
-                密码：2778。
-            </p>
+            <!-- 关闭按钮 -->
+            <button class="close" @click="downloadModalOpen = false" aria-label="关闭"></button>
+            <!-- 弹窗内容 -->
+            <p>密码：2778。</p>
+            <!-- 弹窗底部 -->
             <footer>
-                <a href="https://www.123865.com/s/bB49-KtCd3?pwd=2778#" target="_blank"
-                    class="modal-single-btn">前往下载</a>
+                <a href="https://www.123865.com/s/bB49-KtCd3?pwd=2778#" target="_blank" role="button" class="contrast">前往下载</a>
             </footer>
         </article>
     </dialog>
 
-    <!-- 公众号弹窗 -->
+    <!-- 订阅号弹窗 -->
     <dialog :open="blogModalOpen">
         <article>
-            <button class="modal-close-btn" @click="blogModalOpen = false" aria-label="关闭">✕</button>
-            <header>
-                <p><strong>请微信搜一搜：北新桥。关注订阅号。</strong></p>
-            </header>
-            <img src="https://fast.bexino.dpdns.org/https://github.com/beixinti/Picture/blob/main/Picture/%E6%89%AB%E7%A0%81_%E6%90%9C%E7%B4%A2%E8%81%94%E5%90%88%E4%BC%A0%E6%92%AD%E6%A0%B7%E5%BC%8F-%E6%A0%87%E5%87%86%E8%89%B2%E7%89%88.png?raw=true"
-                alt="博客二维码" style="max-width: 100%; border-radius: 0.5rem;">
+            <!-- 关闭按钮 -->
+            <button class="close" @click="blogModalOpen = false" aria-label="关闭"></button>
+            <!-- 弹窗内容 - 已移除二维码图片，添加微信搜索提示 -->
+            <p>请微信搜一搜：北新桥。</p>
         </article>
     </dialog>
 
-    <!-- 电邮弹窗 -->
+    <!-- 邮箱弹窗 -->
     <dialog :open="contactModalOpen">
         <article>
-            <button class="modal-close-btn" @click="contactModalOpen = false" aria-label="关闭">✕</button>
-            <header>
-                <p><strong>电邮</strong></p>
-            </header>
-            <div class="email-input-group">
-                <input type="text" class="email-input" value="bexino@outlook.de" readonly id="emailInput">
+            <!-- 关闭按钮 -->
+            <button class="close" @click="contactModalOpen = false" aria-label="关闭"></button>
+            <!-- 邮箱输入框 -->
+            <div>
+                <input type="text" value="bexino@outlook.de" readonly>
             </div>
-            <footer>
-                <div class="modal-buttons">
-                    <a href="mailto:bexino@outlook.de" class="modal-single-btn">发送邮件</a>
-                    <button class="modal-single-btn" style="border: none; cursor: pointer;"
-                        @click="navigator.clipboard.writeText('bexino@outlook.de'); copied = true; setTimeout(() => copied = false, 2000)">复制邮箱</button>
-                </div>
+            <!-- 弹窗底部 - 按钮并排布局 -->
+            <footer class="grid grid-cols-2 gap-2">
+                <a href="mailto:bexino@outlook.de" role="button" class="contrast">发送邮件</a>
+                <button role="button" class="secondary" @click="navigator.clipboard.writeText('bexino@outlook.de'); copied = true; setTimeout(() => copied = false, 2000)">复制邮箱</button>
             </footer>
         </article>
     </dialog>
