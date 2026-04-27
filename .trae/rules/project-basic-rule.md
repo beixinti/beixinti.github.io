@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Project basic rule
 ## 基本信息
 这是一个基于 Alpine.js + Pico.css 的轻量级单页面（SPA）工具箱项目。 核心理念： 极简主义、零构建流程（No-Build）、引入即用。
